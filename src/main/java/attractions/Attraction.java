@@ -11,6 +11,10 @@ public abstract class Attraction {
         this.visitCount = 0;
     }
 
+    public void incrementVisitCount() {
+        this.visitCount += 1;
+    }
+
     public String getName() {
         return name;
     }

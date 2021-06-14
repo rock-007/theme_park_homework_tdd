@@ -1,9 +1,10 @@
 package attractions;
 
+import behaviours.IReviewed;
 import behaviours.ITicketed;
 import people.Visitor;
 
-public class Dodgems extends Attraction implements ITicketed {
+public class Dodgems extends Attraction implements ITicketed, IReviewed {
 
     public Dodgems(String name, int rating) {
         super(name, rating);
@@ -16,10 +17,8 @@ public class Dodgems extends Attraction implements ITicketed {
 
     @Override
     public double priceFor(Visitor visitor) {
-        if (visitor.getAge() < 12) {
-            return defaultPRice() / 2.00;
-        } else {
-            return defaultPRice();
-        }
+
+        return visitor.getAge() < 12 ? defaultPRice() / 2.00 : defaultPRice();
+
     }
 }
