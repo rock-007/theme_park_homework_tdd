@@ -1,5 +1,6 @@
 import attractions.*;
 import behaviours.IReviewed;
+import behaviours.ISecurity;
 import people.Visitor;
 import stalls.CandyflossStall;
 import stalls.IceCreamStall;
@@ -7,17 +8,11 @@ import stalls.Stall;
 import stalls.TobaccoStall;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ThemePark {
 
     private String themeParkName;
-    //    private Playground playground;
-//    private Dodgems dosgems;
-//    private Park park;
-//    private RollerCoaster rollerCoaster;
-//    private CandyflossStall candyflossStall;
-//    private IceCreamStall iceCreamStall;
-//    private TobaccoStall tobaccoStall;
     public ArrayList<Attraction> allAttractions;
     public ArrayList<Stall> allStalls;
 
@@ -27,6 +22,45 @@ public class ThemePark {
         this.allAttractions = new ArrayList<>();
         this.allStalls = new ArrayList<>();
     }
+
+
+    public HashMap<String, Integer> allReviews() {
+        HashMap<String, Integer> allReviews = new HashMap<>();
+        if (this.allAttractions != null) {
+            String key;
+            Integer value;
+
+
+            for (Attraction eachAttraction : this.allAttractions) {
+                if (eachAttraction instanceof IReviewed) {
+                    key = eachAttraction.getName();
+                    value = ((IReviewed) eachAttraction).getRating();
+                    allReviews.put(key, value);
+                }
+            }
+            for (Stall eachStall : this.allStalls) {
+                if (eachStall instanceof IReviewed) {
+                    key = eachStall.getName();
+                    value = ((IReviewed) eachStall).getRating();
+                    allReviews.put(key, value);
+                }
+            }
+        }
+        return allReviews;
+    }
+
+    public ArrayList<IReviewed> getAllAllowedFor(Visitor visitor){
+        ArrayList<IReviewed> allAvailableReviews = getAllReviewed();
+        ArrayList<IReviewed> allAllowedReviews = getAllReviewed();
+        for (IReviewed eachAvaialableReviewd : allAvailableReviews){
+            if(eachAvaialableReviewd instanceof ISecurity && !((ISecurity) eachAvaialableReviewd).isAllowedTo(visitor)){
+                allAllowedReviews.remove(eachAvaialableReviewd);
+            }
+
+        }
+    return allAllowedReviews;
+    }
+
 
     public ArrayList<IReviewed> getAllReviewed() {
         ArrayList<IReviewed> allReviewedObjects = new ArrayList<>();
